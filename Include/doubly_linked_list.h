@@ -22,7 +22,13 @@
 //*****************************************************************************
 // File: SinglyLinkedList.h
 //
-// TODO: Add description
+// This file contains the implementation of a Doubly Linked List.
+// The Doubly Linked List is a data structure that consists of a sequence of
+// elements, each containing a link to its previous element and a link to its
+// next element. The Doubly Linked List allows for efficient insertion and
+// deletion of elements at the beginning, end, and at any position in the list.
+// The Doubly Linked List also allows for efficient traversal of the list and
+// searching for elements in the list.
 //*****************************************************************************
 
 #ifndef ALGLIB_INCLUDE_DOUBLYLINKEDLIST_H_
@@ -30,29 +36,48 @@
 
 #include <cstdlib>
 
+/// <summary>
+/// Default namespace for the AlgLib library.
+/// </summary>
 namespace alglib {
+
+/// <summary>
+/// Template based doubly linked list implementation. All nodes are
+/// dynamically allocated.
+/// </summary>
 template <typename T>
 class DoublyLinkedList {
  public:
+  // Constructor for the doubly linked list.
   DoublyLinkedList();
 
+  // Methods for exploring the doubly linked list.
   void Traverse() const;
   size_t Size() const;
   size_t Find(const T value) const;
 
+  // Method for converting the doubly linked list to a vector.
   std::vector<T> GetAsVector() const;
 
+  // Methods for inserting elements into the doubly linked list.
   void InsertAtBeginning(const T data);
   void InsertAtEnd(const T data);
   void InsertAtPosition(const uint32_t pos, const T data);
 
+  // Methods for deleting elements from the doubly linked list.
   void DeleteAtBeginning();
   void DeleteAtEnd();
   void DeleteAtPosition(uint32_t pos);
 
+  // Destructor for the doubly linked list.
   ~DoublyLinkedList();
 
  private:
+  /// <summary>
+  /// Node structure for the doubly linked list.
+  /// Contains a pointer to the next node, a pointer to the previous node,
+  /// and the data of the node.
+  /// </summary>
   struct Node {
     Node(T data);
     ~Node() = default;
@@ -61,19 +86,34 @@ class DoublyLinkedList {
     T data;
   };
 
+  // Method for checking if the doubly linked list is empty.
   bool IsEmpty() const;
 
+  // Head and tail pointers for the doubly linked list.
   Node *head_;
   Node *tail_;
 };
 
+/// <summary>
+/// Constructor for the Node structure. It initializes the data of the node
+/// with the given data and sets the next and previous pointers to nullptr.
+/// </summary>
+/// <param name="data"> Value that will be set as node value.</param>
 template <typename T>
 DoublyLinkedList<T>::Node::Node(const T data)
     : next(nullptr), previous(nullptr), data(data) {}
 
+/// <summary>
+/// Constructor for the doubly linked list. It initializes the head and tail
+/// pointers to nullptr.
+/// </summary>
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList() : head_(nullptr), tail_(nullptr) {}
 
+/// <summary>
+/// Method for traversing the doubly linked list. It starts at the head of the
+/// list and moves to the next node until the end of the list is reached.
+/// </summary>
 template <typename T>
 void DoublyLinkedList<T>::Traverse() const {
   Node *tmp{head_};
@@ -84,6 +124,12 @@ void DoublyLinkedList<T>::Traverse() const {
   }
 }
 
+/// <summary>
+/// Method for calculating the number of elements in the doubly linked list.
+/// It starts at the head of the list and moves to the next node until the end
+/// of the list is reached.
+/// </summary>
+/// <returns> Number of nodes in list.</returns>
 template <typename T>
 size_t DoublyLinkedList<T>::Size() const {
   Node *tmp{head_};
@@ -95,6 +141,12 @@ size_t DoublyLinkedList<T>::Size() const {
   return count;
 }
 
+/// <summary>
+/// Method for finding a value in the doubly linked list. It starts at the head
+/// of the list and moves to the next node until the end of the list is reached.
+/// </summary>
+/// <param name="value"> Value that list is searched for.</param>
+/// <returns> Index of element if found. (0 - first).</returns>
 template <typename T>
 size_t DoublyLinkedList<T>::Find(const T value) const {
   Node *tmp{head_};
@@ -110,6 +162,15 @@ size_t DoublyLinkedList<T>::Find(const T value) const {
   }
 }
 
+/// <summary>
+/// Method for converting the doubly linked list to a vector. It starts at the
+/// head of the list and moves to the next node until the end of the list is
+/// reached.
+/// It is used for testing purposes.
+/// Using it in production code is not recommended as it is simply missing the
+/// point of the doubly linked list.
+/// </summary>
+/// <returns>Doubly linked list as vector.</returns>
 template <typename T>
 std::vector<T> DoublyLinkedList<T>::GetAsVector() const {
   std::vector<T> vec{};
@@ -122,6 +183,13 @@ std::vector<T> DoublyLinkedList<T>::GetAsVector() const {
   return vec;
 }
 
+/// <summary>
+/// Method for inserting a new node at the beginning of the doubly linked list.
+/// It creates a new node with the given data and sets the next pointer of the
+/// new node to the head of the list. If the list is not empty, it sets the
+/// previous pointer of the head node to the new node.
+/// </summary>
+/// <param name="data">Value that will be inserted.</param>
 template <typename T>
 void DoublyLinkedList<T>::InsertAtBeginning(const T data) {
   Node *new_node{new Node(data)};
@@ -135,6 +203,13 @@ void DoublyLinkedList<T>::InsertAtBeginning(const T data) {
   }
 }
 
+/// <summary>
+/// Method for inserting a new node at the end of the doubly linked list.
+/// It creates a new node with the given data and sets the next pointer of the
+/// last node in the list to the new node. If the list is empty, it sets the
+/// head pointer to the new node.
+/// </summary>
+/// <param name="data">Value that will be inserted.</param>
 template <typename T>
 void DoublyLinkedList<T>::InsertAtEnd(const T data) {
   Node *new_node{new Node(data)};
@@ -150,6 +225,16 @@ void DoublyLinkedList<T>::InsertAtEnd(const T data) {
   }
 }
 
+/// <summary>
+/// Method for inserting a new node at the given position in the doubly linked
+/// list. It creates a new node with the given data and inserts it at the
+/// specified position. If the position is 0, the new node is inserted at the
+/// beginning of the list. If the position is equal to the size of the list,
+/// the new node is inserted at the end of the list.
+/// If the position is out of range, an exception is thrown.
+/// </summary>
+/// <param name="pos">Position to insert the data (0 - first).</param>
+/// <param name="data">Value that will be inserted.</param>
 template <typename T>
 void DoublyLinkedList<T>::InsertAtPosition(const uint32_t pos, const T data) {
   if (pos > Size()) {
@@ -177,6 +262,11 @@ void DoublyLinkedList<T>::InsertAtPosition(const uint32_t pos, const T data) {
   }
 }
 
+/// <summary>
+/// Method for deleting the first node in the doubly linked list. If the list
+/// is empty, an exception is thrown. If the list has only one node, the node
+/// is deleted and the head pointer is set to nullptr.
+/// </summary>
 template <typename T>
 void DoublyLinkedList<T>::DeleteAtBeginning() {
   if (IsEmpty()) {
@@ -192,6 +282,11 @@ void DoublyLinkedList<T>::DeleteAtBeginning() {
   }
 }
 
+/// <summary>
+/// Method for deleting the last node in the doubly linked list. If the list is
+/// empty, an exception is thrown. If the list has only one node, the node is
+/// deleted and the head pointer is set to nullptr
+/// </summary>
 template <typename T>
 void DoublyLinkedList<T>::DeleteAtEnd() {
   if (IsEmpty()) {
@@ -209,6 +304,12 @@ void DoublyLinkedList<T>::DeleteAtEnd() {
   }
 }
 
+/// <summary>
+/// Deletes the node at the given position in the doubly linked list. If the
+/// list is empty, an exception is thrown. If the position is out of range, an
+/// exception is thrown.
+/// </summary>
+/// <param name="pos">Position of node to delete (0 - first).</param>
 template <typename T>
 void DoublyLinkedList<T>::DeleteAtPosition(uint32_t pos) {
   if (head_ == nullptr) {
@@ -237,6 +338,10 @@ void DoublyLinkedList<T>::DeleteAtPosition(uint32_t pos) {
   delete curr;
 }
 
+/// <summary>
+/// Destructor for the doubly linked list. It traverses the list and deletes
+/// each node in the list. It also deletes the tail pointer.
+/// </summary>
 template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList() {
   Node *tmp{head_};
@@ -248,6 +353,10 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
   delete tail_;
 }
 
+/// <summary>
+/// Method for checking if the doubly linked list is empty
+/// </summary>
+/// <returns>True if the list is empty, false otherwise.</returns>
 template <typename T>
 bool DoublyLinkedList<T>::IsEmpty() const {
   return head_ == nullptr;
