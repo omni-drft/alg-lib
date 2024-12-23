@@ -20,7 +20,7 @@
 //*****************************************************************************
 
 //*****************************************************************************
-// File: SinglyLinkedList.h
+// File: doubly_linked_list.h
 //
 // This file contains the implementation of a Doubly Linked List.
 // The Doubly Linked List is a data structure that consists of a sequence of
@@ -35,6 +35,8 @@
 #define ALGLIB_INCLUDE_DOUBLYLINKEDLIST_H_
 
 #include <cstdlib>
+
+#include "constants.h"
 
 /// <summary>
 /// Default namespace for the AlgLib library.
@@ -195,9 +197,9 @@ void DoublyLinkedList<T>::InsertAtBeginning(const T data) {
   Node *new_node{new Node(data)};
   if (IsEmpty()) {
     head_ = new_node;
+    tail_ = new_node;
   } else {
     new_node->next = head_;
-    new_node->previous = nullptr;
     head_->previous = new_node;
     head_ = new_node;
   }
@@ -215,50 +217,47 @@ void DoublyLinkedList<T>::InsertAtEnd(const T data) {
   Node *new_node{new Node(data)};
   if (IsEmpty()) {
     head_ = new_node;
+    tail_ = new_node;
   } else {
-    Node *tmp{head_};
-    while (tmp->next) {
-      tmp = tmp->next;
-    }
-    tmp->next = new_node;
-    new_node->previous = tmp;
+    tail_->next = new_node;
+    new_node->previous = tail_;
+    tail_ = new_node;
   }
 }
 
 /// <summary>
 /// Method for inserting a new node at the given position in the doubly linked
-/// list. It creates a new node with the given data and inserts it at the
-/// specified position. If the position is 0, the new node is inserted at the
-/// beginning of the list. If the position is equal to the size of the list,
-/// the new node is inserted at the end of the list.
-/// If the position is out of range, an exception is thrown.
+/// list. If the position is 0, insert at the beginning. If the position is
+/// equal to the size, insert at the end. Otherwise, link it into the middle. If
+/// pos is out of range, an exception is thrown.
 /// </summary>
-/// <param name="pos">Position to insert the data (0 - first).</param>
+/// <param name="pos">Position to insert the data (0-based index).</param>
 /// <param name="data">Value that will be inserted.</param>
 template <typename T>
 void DoublyLinkedList<T>::InsertAtPosition(const uint32_t pos, const T data) {
-  if (pos > Size()) {
+  const size_t current_size{Size()};
+  if (pos > current_size) {
     throw std::runtime_error(errors::kIndexOutOfRange);
   }
   if (pos == 0) {
     InsertAtBeginning(data);
     return;
-  } else if (pos == Size()) {
+  }
+  if (pos == current_size) {
     InsertAtEnd(data);
     return;
   }
   Node *new_node = new Node(data);
   Node *prev_node = head_;
-  uint32_t count = 0;
-  while (count < pos - 1) {
+  for (uint32_t i{}; i < pos - 1; ++i) {
     prev_node = prev_node->next;
-    ++count;
   }
-  new_node->next = prev_node->next;
+  Node *next_node{prev_node->next};
+  new_node->next = next_node;
   new_node->previous = prev_node;
   prev_node->next = new_node;
-  if (new_node->next != nullptr) {
-    new_node->next->previous = new_node;
+  if (next_node) {
+    next_node->previous = new_node;
   }
 }
 
@@ -271,9 +270,11 @@ template <typename T>
 void DoublyLinkedList<T>::DeleteAtBeginning() {
   if (IsEmpty()) {
     throw std::runtime_error(errors::kEmptyDeletion);
-  } else if (head_->next == nullptr) {
+  }
+  if (head_ == tail_) {
     delete head_;
     head_ = nullptr;
+    tail_ = nullptr;
   } else {
     Node *tmp{head_};
     head_ = head_->next;
@@ -291,15 +292,15 @@ template <typename T>
 void DoublyLinkedList<T>::DeleteAtEnd() {
   if (IsEmpty()) {
     throw std::runtime_error(errors::kEmptyDeletion);
-  } else if (head_->next == nullptr) {
+  }
+  if (head_ == tail_) {
     delete head_;
     head_ = nullptr;
+    tail_ = nullptr;
   } else {
-    Node *tmp{head_};
-    while (tmp->next) {
-      tmp = tmp->next;
-    }
-    tmp->previous->next = nullptr;
+    Node *tmp{tail_};
+    tail_ = tail_->previous;
+    tail_->next = nullptr;
     delete tmp;
   }
 }
@@ -312,28 +313,32 @@ void DoublyLinkedList<T>::DeleteAtEnd() {
 /// <param name="pos">Position of node to delete (0 - first).</param>
 template <typename T>
 void DoublyLinkedList<T>::DeleteAtPosition(uint32_t pos) {
-  if (head_ == nullptr) {
+  if (IsEmpty()) {
     throw std::runtime_error(errors::kEmptyDeletion);
   }
-  Node *curr = head_;
-  uint32_t index = 0;
-  while (curr != nullptr && index < pos) {
-    curr = curr->next;
-    ++index;
-  }
-  if (curr == nullptr) {
+  const size_t current_size{Size()};
+  if (pos >= current_size) {
     throw std::runtime_error(errors::kIndexOutOfRange);
   }
-  if (curr->previous == nullptr) {
-    head_ = curr->next;
-    if (head_ != nullptr) {
-      head_->previous = nullptr;
-    }
-  } else {
-    curr->previous->next = curr->next;
+  if (pos == 0) {
+    DeleteAtBeginning();
+    return;
   }
-  if (curr->next != nullptr) {
-    curr->next->previous = curr->previous;
+  if (pos == current_size - 1) {
+    DeleteAtEnd();
+    return;
+  }
+  Node *curr{head_};
+  for (uint32_t i{}; i < pos; ++i) {
+    curr = curr->next;
+  }
+  Node *prev_node{curr->previous};
+  Node *next_node{curr->next};
+  if (prev_node) {
+    prev_node->next = next_node;
+  }
+  if (next_node) {
+    next_node->previous = next_node;
   }
   delete curr;
 }
@@ -350,7 +355,8 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
     delete tmp;
     tmp = next;
   }
-  delete tail_;
+  head_ = nullptr;
+  tail_ = nullptr;
 }
 
 /// <summary>
@@ -359,7 +365,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 /// <returns>True if the list is empty, false otherwise.</returns>
 template <typename T>
 bool DoublyLinkedList<T>::IsEmpty() const {
-  return head_ == nullptr;
+  return (head_ == nullptr);
 }
 
 }  // namespace alglib

@@ -23,7 +23,7 @@
 //*****************************************************************************
 
 //*****************************************************************************
-// File: SinglyLinkedList.h
+// File: singly_linked_list.h
 //
 // This file contains the implementation of the SinglyLinkedList class.
 // Implementation is based on templates, so the class can be used with any
