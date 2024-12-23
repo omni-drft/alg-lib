@@ -138,5 +138,11 @@ int main() {
     std::cout << "  Test 8 - OK" << std::endl;
   }
 
+  int arr[] = {1, 4, 2, 5, 7, 9, 3, 2, 11};
+  alglib::SelectionSort(arr, arr + 9);
+  for (int i = 0; i < 9; ++i) {
+    std::cout << arr[i] << " ";
+  }
+
   return 0;
 }
