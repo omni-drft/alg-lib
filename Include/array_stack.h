@@ -25,31 +25,24 @@
 //*****************************************************************************
 // File: array_stack.h
 //
-// This file contains constant values that are used in the library.
+// This file contains the implementation of the ArrayStack class. Implementation
+// is based on templates, so the class can be used with any type. ArrayStack
+// is a stack implementation that uses an array as a base structure. It doesn't
+// allocate memory on the heap, so it is faster than the implementation that
+// can grow dynamically. The class is implemented in the alglib namespace.
 //*****************************************************************************
 
-#ifndef ALGLIB_INCLUDE_CONSTANTS_H_
-#define ALGLIB_INCLUDE_CONSTANTS_H_
+#ifndef ALGLIB_INCLUDE_ARRAYSTACK_H_
+#define ALGLIB_INCLUDE_ARRAYSTACK_H_
 
-#include <string>
-
-/// <summary>
-/// Default namespace for the AlgLib library.
-/// </summary>
 namespace alglib {
 
-/// <summary>
-/// Namespace for errors in the AlgLib library.
-/// </summary>
-namespace errors {
-
-// Error messages.
-constexpr const char* kItemNotFound{"Item not found."};
-constexpr const char* kIndexOutOfRange{"Index out of range."};
-constexpr const char* kEmptyDeletion{"Cannot delete from empty object."};
-
-}  // namespace errors
+template <typename T>
+class ArrayStack {
+ public:
+ private:
+};
 
 }  // namespace alglib
 
-#endif  // ALGLIB_INCLUDE_CONSTANTS_H_
+#endif  // ALGLIB_INCLUDE_ARRAYSTACK_H_

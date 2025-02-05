@@ -1,3 +1,6 @@
+//*****************************************************************************
+// The MIT License (MIT)
+//
 // Copyright © 2024 Piotr Walczak
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
