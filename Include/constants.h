@@ -44,9 +44,10 @@ namespace alglib {
 namespace errors {
 
 // Error messages.
-constexpr const char* kItemNotFound{"Item not found."};
-constexpr const char* kIndexOutOfRange{"Index out of range."};
-constexpr const char* kEmptyDeletion{"Cannot delete from empty object."};
+inline constexpr const char* kItemNotFound{"Item not found."};
+inline constexpr const char* kIndexOutOfRange{"Index out of range."};
+inline constexpr const char* kEmptyDeletion{"Cannot delete from empty object."};
+inline constexpr const char* kStackFull{"Stack is full."};
 
 }  // namespace errors
 

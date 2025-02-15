@@ -35,13 +35,127 @@
 #ifndef ALGLIB_INCLUDE_ARRAYSTACK_H_
 #define ALGLIB_INCLUDE_ARRAYSTACK_H_
 
+#include <array>
+#include <stdexcept>
+
+#include "constants.h"
+
+/// <summary>
+/// Default namespace for the AlgLib library.
+/// </summary>
 namespace alglib {
 
-template <typename T>
+/// <summary>
+/// Template based stack implementation that uses an array as a base structure.
+/// It doesn't allocate memory on the heap, but it has a fixed capacity that has
+/// to be defined at compile time.
+/// </summary>
+/// <typeparam name="T"> type of data stored in stack</typeparam>
+/// <typeparam name="capacity"> max capacity of stack (size of
+/// array)</typeparam>
+template <typename T, size_t capacity>
 class ArrayStack {
  public:
+  // Constructor for the ArrayStack.
+  ArrayStack();
+
+  // Methods for manipulating the stack.
+  void Push(T val);
+  T Pop();
+  T Top() const noexcept;
+  bool IsEmpty() const noexcept;
+  bool IsFull() const noexcept;
+  size_t Size() const noexcept;
+  size_t Capacity() const noexcept;
+
  private:
+  /// <summary>
+  /// Array that holds the data of the stack.
+  /// </summary>
+  std::array<T, capacity> data;
+
+  /// <summary>
+  /// Index of the top element in the stack.
+  /// </summary>
+  int topIndex;
 };
+
+/// <summary>
+/// ArrayStack constructor. Only initializes the topIndex to -1.
+/// </summary>
+template <typename T, size_t capacity>
+ArrayStack<T, capacity>::ArrayStack() : topIndex(-1) {}
+
+/// <summary>
+/// Pushes a value to the top of the stack.
+/// Handles the topIndex and checks if the stack is full.
+/// </summary>
+/// <param name="val"> value to be pushed.</param>
+template <typename T, size_t capacity>
+void ArrayStack<T, capacity>::Push(T val) {
+  topIndex++;
+  if (topIndex >= capacity) {
+    throw std::runtime_error(errors::kStackFull);
+  }
+  data[topIndex] = val;
+}
+
+/// <summary>
+/// Pops the value from the top of the stack.
+/// </summary>
+/// <returns> value that was on the top of the stack.</returns>
+template <typename T, size_t capacity>
+T ArrayStack<T, capacity>::Pop() {
+  if (topIndex < 0) {
+    throw std::runtime_error(errors::kEmptyDeletion);
+  }
+  return data.at(topIndex--);
+}
+
+/// <summary>
+/// Method that gets the value from the top of the stack without removing it.
+/// </summary>
+/// <returns>vale that is on the top of the stack.</returns>
+template <typename T, size_t capacity>
+T ArrayStack<T, capacity>::Top() const noexcept {
+  return data.at(topIndex);
+}
+
+/// <summary>
+/// Method that checks if the stack is empty.
+/// </summary>
+/// <returns>true if empty, false if not</returns>
+template <typename T, size_t capacity>
+bool ArrayStack<T, capacity>::IsEmpty() const noexcept {
+  return topIndex < 0;
+}
+
+/// <summary>
+/// Method that checks if the stack is full.
+/// </summary>
+/// <returns>true if stack is full, false if not.</returns>
+template <typename T, size_t capacity>
+bool ArrayStack<T, capacity>::IsFull() const noexcept {
+  return topIndex >= capacity - 1;
+}
+
+/// <summary>
+/// Method that gets amount of elements in the stack.
+/// </summary>
+/// <returns> number of items in the stack.</returns>
+template <typename T, size_t capacity>
+size_t ArrayStack<T, capacity>::Size() const noexcept {
+  return topIndex + 1;
+}
+
+/// <summary>
+/// Method that gets the maximum capacity of the stack.
+/// </summary>
+/// <returns> maximum capacity of the stack.</returns>
+template <typename T, size_t capacity>
+size_t ArrayStack<T, capacity>::Capacity() const noexcept {
+  return capacity;
+}
 
 }  // namespace alglib
 

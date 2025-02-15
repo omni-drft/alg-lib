@@ -57,16 +57,16 @@ class SinglyLinkedList {
   SinglyLinkedList();
 
   // Methods for exploring the singly linked list.
-  void Traverse() const;
-  size_t Size() const;
+  void Traverse() const noexcept;
+  size_t Size() const noexcept;
   size_t Find(T value) const;
 
   // Method for converting the singly linked list to a vector.
-  std::vector<T> GetAsVector() const;
+  std::vector<T> GetAsVector() const noexcept;
 
   // Insertion methods
-  void InsertAtBeginning(T value);
-  void InsertAtEnd(T value);
+  void InsertAtBeginning(T value) noexcept;
+  void InsertAtEnd(T value) noexcept;
   void InsertAtPosition(uint32_t pos, T value);
 
   // Deletion methods
@@ -127,7 +127,7 @@ SinglyLinkedList<T>::SinglyLinkedList() : head_(nullptr) {}
 /// the while loop.
 /// </summary>
 template <typename T>
-void SinglyLinkedList<T>::Traverse() const {
+void SinglyLinkedList<T>::Traverse() const noexcept {
   Node *tmp{head_};
   while (tmp) {
     // Do something with the tmp->data.
@@ -142,7 +142,7 @@ void SinglyLinkedList<T>::Traverse() const {
 /// </summary>
 /// <returns>Number of nodes in structure as size_t.</returns>
 template <typename T>
-size_t SinglyLinkedList<T>::Size() const {
+size_t SinglyLinkedList<T>::Size() const noexcept {
   Node *tmp{head_};
   size_t count{};
   while (tmp) {
@@ -182,7 +182,7 @@ size_t SinglyLinkedList<T>::Find(T value) const {
 /// </summary>
 /// <returns>std::vector of nodes that are in structure.</returns>
 template <typename T>
-std::vector<T> SinglyLinkedList<T>::GetAsVector() const {
+std::vector<T> SinglyLinkedList<T>::GetAsVector() const noexcept {
   std::vector<T> vec{};
   vec.reserve(Size());
   Node *tmp{head_};
@@ -199,7 +199,7 @@ std::vector<T> SinglyLinkedList<T>::GetAsVector() const {
 /// </summary>
 /// <param name="value">Value for the new node.</param>
 template <typename T>
-void SinglyLinkedList<T>::InsertAtBeginning(T value) {
+void SinglyLinkedList<T>::InsertAtBeginning(T value) noexcept {
   Node *new_node{new Node(value)};
   new_node->next = head_;
   head_ = new_node;
@@ -211,7 +211,7 @@ void SinglyLinkedList<T>::InsertAtBeginning(T value) {
 /// </summary>
 /// <param name="value">Value for the new node.</param>
 template <typename T>
-void SinglyLinkedList<T>::InsertAtEnd(T value) {
+void SinglyLinkedList<T>::InsertAtEnd(T value) noexcept {
   Node *new_node{new Node(value)};
 
   if (head_ == nullptr) {
