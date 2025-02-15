@@ -57,16 +57,16 @@ class DoublyLinkedList {
   DoublyLinkedList();
 
   // Methods for exploring the doubly linked list.
-  void Traverse() const;
-  size_t Size() const;
+  void Traverse() const noexcept;
+  size_t Size() const noexcept;
   size_t Find(const T value) const;
 
   // Method for converting the doubly linked list to a vector.
-  std::vector<T> GetAsVector() const;
+  std::vector<T> GetAsVector() const noexcept;
 
   // Methods for inserting elements into the doubly linked list.
-  void InsertAtBeginning(const T data);
-  void InsertAtEnd(const T data);
+  void InsertAtBeginning(const T data) noexcept;
+  void InsertAtEnd(const T data) noexcept;
   void InsertAtPosition(const uint32_t pos, const T data);
 
   // Methods for deleting elements from the doubly linked list.
@@ -92,7 +92,7 @@ class DoublyLinkedList {
   };
 
   // Method for checking if the doubly linked list is empty.
-  bool IsEmpty() const;
+  bool IsEmpty() const noexcept;
 
   // Head and tail pointers for the doubly linked list.
   Node *head_;
@@ -120,7 +120,7 @@ DoublyLinkedList<T>::DoublyLinkedList() : head_(nullptr), tail_(nullptr) {}
 /// list and moves to the next node until the end of the list is reached.
 /// </summary>
 template <typename T>
-void DoublyLinkedList<T>::Traverse() const {
+void DoublyLinkedList<T>::Traverse() const noexcept {
   Node *tmp{head_};
   while (tmp) {
     // Do something with tmp->data
@@ -136,7 +136,7 @@ void DoublyLinkedList<T>::Traverse() const {
 /// </summary>
 /// <returns> Number of nodes in list.</returns>
 template <typename T>
-size_t DoublyLinkedList<T>::Size() const {
+size_t DoublyLinkedList<T>::Size() const noexcept {
   Node *tmp{head_};
   size_t count{};
   while (tmp) {
@@ -177,7 +177,7 @@ size_t DoublyLinkedList<T>::Find(const T value) const {
 /// </summary>
 /// <returns>Doubly linked list as vector.</returns>
 template <typename T>
-std::vector<T> DoublyLinkedList<T>::GetAsVector() const {
+std::vector<T> DoublyLinkedList<T>::GetAsVector() const noexcept{
   std::vector<T> vec{};
   vec.reserve(Size());
   Node *tmp{head_};
@@ -196,7 +196,7 @@ std::vector<T> DoublyLinkedList<T>::GetAsVector() const {
 /// </summary>
 /// <param name="data">Value that will be inserted.</param>
 template <typename T>
-void DoublyLinkedList<T>::InsertAtBeginning(const T data) {
+void DoublyLinkedList<T>::InsertAtBeginning(const T data) noexcept {
   Node *new_node{new Node(data)};
   if (IsEmpty()) {
     head_ = new_node;
@@ -216,7 +216,7 @@ void DoublyLinkedList<T>::InsertAtBeginning(const T data) {
 /// </summary>
 /// <param name="data">Value that will be inserted.</param>
 template <typename T>
-void DoublyLinkedList<T>::InsertAtEnd(const T data) {
+void DoublyLinkedList<T>::InsertAtEnd(const T data) noexcept {
   Node *new_node{new Node(data)};
   if (IsEmpty()) {
     head_ = new_node;
@@ -367,7 +367,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 /// </summary>
 /// <returns>True if the list is empty, false otherwise.</returns>
 template <typename T>
-bool DoublyLinkedList<T>::IsEmpty() const {
+bool DoublyLinkedList<T>::IsEmpty() const noexcept {
   return (head_ == nullptr);
 }
 
