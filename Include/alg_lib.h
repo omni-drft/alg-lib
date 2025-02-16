@@ -35,5 +35,6 @@
 #include "doubly_linked_list.h"
 #include "constants.h"
 #include "array_stack.h"
+#include "sll_stack.h"
 
 #endif // ALGLIB_INCLUDE_ALGLIB_H_
