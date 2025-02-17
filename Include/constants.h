@@ -47,7 +47,8 @@ namespace errors {
 inline constexpr const char* kItemNotFound{"Item not found."};
 inline constexpr const char* kIndexOutOfRange{"Index out of range."};
 inline constexpr const char* kEmptyDeletion{"Cannot delete from empty object."};
-inline constexpr const char* kStackFull{"Stack is full."};
+inline constexpr const char* kObjectFull{"Object full."};
+inline constexpr const char* kObjectEmpty{"Object empty."};
 
 }  // namespace errors
 

@@ -95,7 +95,7 @@ template <typename T, size_t capacity>
 void ArrayStack<T, capacity>::Push(T val) {
   topIndex++;
   if (topIndex >= capacity) {
-    throw std::runtime_error(errors::kStackFull);
+    throw std::runtime_error(errors::kObjectFull);
   }
   data[topIndex] = val;
 }

@@ -36,5 +36,7 @@
 #include "constants.h"
 #include "array_stack.h"
 #include "sll_stack.h"
+#include "circular_queue.h"
+#include "sll_queue.h"
 
 #endif // ALGLIB_INCLUDE_ALGLIB_H_
