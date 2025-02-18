@@ -40,40 +40,80 @@
 
 #include "constants.h"
 
+/// <summary>
+/// Default namespace for the AlgLib library.
+/// </summary>
 namespace alglib {
 
+/// <summary>
+/// CircularQueue class is a queue data structure implemented using an array.
+/// It doesn't allocate memory on the heap and has a fixed capacity that has
+/// to be defined at compile time. It uses a circular buffer to store elements.
+/// </summary>
+/// <typeparam name="T"> type that will be stored in queue.</typeparam>
+/// <typeparam name="capacity"> max capacity of queue.</typeparam>
 template <typename T, size_t capacity>
 class CircularQueue {
  public:
+  // Constructor for the CircularQueue.
   CircularQueue();
 
+  // Manipulation methods for the queue.
   bool IsEmpty() const noexcept;
   bool IsFull() const noexcept;
   T Dequeue();
   void Enqueue(T value);
 
+  // Methods for peeking at values in the queue.
   T PeekFront() const noexcept;
   T PeekRear() const noexcept;
 
  private:
+  /// <summary>
+  /// Main array that stores elements of the queue.
+  /// </summary>
   std::array<T, capacity> queue;
+  /// <summary>
+  /// Index of the front element of the queue.
+  /// </summary>
   size_t front;
+  /// <summary>
+  /// Amount of active elements in the queue.
+  /// </summary>
   size_t size;
 };
 
+/// <summary>
+/// Constructor for the CircularQueue. It initializes the front index and size
+/// to 0.
+/// </summary>
 template <typename T, size_t capacity>
 CircularQueue<T, capacity>::CircularQueue() : front(0), size(0) {}
 
+/// <summary>
+/// Checks if the queue is empty by checking the size value.
+/// If size is 0, the queue is empty.
+/// </summary>
+/// <returns> true if empty, false if not.</returns>
 template <typename T, size_t capacity>
 bool CircularQueue<T, capacity>::IsEmpty() const noexcept {
   return size == 0;
 }
 
+/// <summary>
+/// Checks if the queue is full by comparing the size value to the capacity.
+/// </summary>
+/// <returns> true if full, false if not</returns>
 template <typename T, size_t capacity>
 bool CircularQueue<T, capacity>::IsFull() const noexcept {
   return size == capacity;
 }
 
+/// <summary>
+/// Gets the value from the front of the queue and moves the front index to the
+/// next element. If the queue is empty (size == 0), it throws a runtime error.
+/// </summary>
+/// <returns> value of front element in queue.</returns>
 template <typename T, size_t capacity>
 T CircularQueue<T, capacity>::Dequeue() {
   if (IsEmpty()) {
@@ -85,6 +125,11 @@ T CircularQueue<T, capacity>::Dequeue() {
   return result;
 }
 
+/// <summary>
+/// Adds a new value to the rear of the queue. If the queue is full, it throws
+/// a runtime error. Size is increased by 1.
+/// </summary>
+/// <param name="value"> value to be inserted into queue.</param>
 template <typename T, size_t capacity>
 void CircularQueue<T, capacity>::Enqueue(T value) {
   if (IsFull()) {
@@ -95,11 +140,19 @@ void CircularQueue<T, capacity>::Enqueue(T value) {
   ++size;
 }
 
+/// <summary>
+/// Gets the value from the front without moving the front index.
+/// </summary>
+/// <returns> value from the front of the queue.</returns>
 template <typename T, size_t capacity>
 T CircularQueue<T, capacity>::PeekFront() const noexcept {
   return queue.at(front);
 }
 
+/// <summary>
+/// Gets value from the rear of the queue without changing the size of the queue.
+/// </summary>
+/// <returns> value from the rear of the queue.</returns>
 template <typename T, size_t capacity>
 T CircularQueue<T, capacity>::PeekRear() const noexcept {
   size_t rear{(front + size - 1) % capacity};
