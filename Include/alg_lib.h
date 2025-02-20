@@ -38,5 +38,6 @@
 #include "sll_stack.h"
 #include "circular_queue.h"
 #include "sll_queue.h"
+#include "adj_mat_graph.h"
 
 #endif // ALGLIB_INCLUDE_ALGLIB_H_

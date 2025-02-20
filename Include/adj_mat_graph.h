@@ -5,6 +5,8 @@
 #include <functional>
 #include <vector>
 
+#include "sll_queue.h"
+
 namespace alglib {
 
 template <typename T>
@@ -52,11 +54,26 @@ AdjMatGraph<T>::AdjMatGraph(size_t vertices, bool is_directed,
 template <typename T>
 void AdjMatGraph<T>::BFS(size_t start,
                          const std::function<void(int)>& visit_callback) {
+  SLLQueue<int> q;
+  std::vector<bool> visited(adjacency_matrix.size(), false);
+  visited.at(start) = true;
+  q.Enqueue(start);
+  while (!q.IsEmpty()) {
+    int current{q.Dequeue()};
+    visit_callback(current);
+    for (auto i : adjacency_matrix.at(current)) {
+      if (!visited.at(i)) {
+        visited.at(i) = true;
+        q.Enqueue(i);
+      }
+    }
+  }
 }
 
 template <typename T>
 void AdjMatGraph<T>::DFS(size_t start,
                          const std::function<void(int)>& visit_callback) {
+
 }
 
 }  // namespace alglib

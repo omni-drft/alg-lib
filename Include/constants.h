@@ -49,6 +49,7 @@ inline constexpr const char* kIndexOutOfRange{"Index out of range."};
 inline constexpr const char* kEmptyDeletion{"Cannot delete from empty object."};
 inline constexpr const char* kObjectFull{"Object full."};
 inline constexpr const char* kObjectEmpty{"Object empty."};
+inline constexpr const char* kPeekAtEmpty{"Cannot peek at empty objects."};
 
 }  // namespace errors
 

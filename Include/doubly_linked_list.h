@@ -74,6 +74,9 @@ class DoublyLinkedList {
   void DeleteAtEnd();
   void DeleteAtPosition(uint32_t pos);
 
+  // Method for checking if the doubly linked list is empty.
+  bool IsEmpty() const noexcept;
+
   // Destructor for the doubly linked list.
   ~DoublyLinkedList();
 
@@ -90,9 +93,6 @@ class DoublyLinkedList {
     Node *previous;
     T data;
   };
-
-  // Method for checking if the doubly linked list is empty.
-  bool IsEmpty() const noexcept;
 
   // Head and tail pointers for the doubly linked list.
   Node *head_;
@@ -124,7 +124,7 @@ void DoublyLinkedList<T>::Traverse() const noexcept {
   Node *tmp{head_};
   while (tmp) {
     // Do something with tmp->data
-    std::cout << tmp->data << " ";
+    // std::cout << tmp->data << " ";
     tmp = tmp->next;
   }
 }

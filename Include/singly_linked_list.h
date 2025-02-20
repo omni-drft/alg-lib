@@ -131,7 +131,7 @@ void SinglyLinkedList<T>::Traverse() const noexcept {
   Node *tmp{head_};
   while (tmp) {
     // Do something with the tmp->data.
-    std::cout << tmp->data << " ";
+    // std::cout << tmp->data << " ";
     tmp = tmp->next;
   }
 }

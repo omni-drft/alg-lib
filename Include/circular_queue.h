@@ -65,8 +65,8 @@ class CircularQueue {
   void Enqueue(T value);
 
   // Methods for peeking at values in the queue.
-  T PeekFront() const noexcept;
-  T PeekRear() const noexcept;
+  T PeekFront() const;
+  T PeekRear() const;
 
  private:
   /// <summary>
@@ -88,7 +88,7 @@ class CircularQueue {
 /// to 0.
 /// </summary>
 template <typename T, size_t capacity>
-CircularQueue<T, capacity>::CircularQueue() : front(0), size(0) {}
+CircularQueue<T, capacity>::CircularQueue() : front(0), size(0), queue() {}
 
 /// <summary>
 /// Checks if the queue is empty by checking the size value.
@@ -145,16 +145,23 @@ void CircularQueue<T, capacity>::Enqueue(T value) {
 /// </summary>
 /// <returns> value from the front of the queue.</returns>
 template <typename T, size_t capacity>
-T CircularQueue<T, capacity>::PeekFront() const noexcept {
+T CircularQueue<T, capacity>::PeekFront() const {
+  if (IsEmpty()) {
+    throw std::runtime_error(errors::kPeekAtEmpty);
+  }
   return queue.at(front);
 }
 
 /// <summary>
-/// Gets value from the rear of the queue without changing the size of the queue.
+/// Gets value from the rear of the queue without changing the size of the
+/// queue.
 /// </summary>
 /// <returns> value from the rear of the queue.</returns>
 template <typename T, size_t capacity>
-T CircularQueue<T, capacity>::PeekRear() const noexcept {
+T CircularQueue<T, capacity>::PeekRear() const {
+  if (IsEmpty()) {
+    throw std::runtime_error(errors::kPeekAtEmpty);
+  }
   size_t rear{(front + size - 1) % capacity};
   return queue.at(rear);
 }

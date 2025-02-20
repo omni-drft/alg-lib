@@ -62,7 +62,7 @@ class ArrayStack {
   // Methods for manipulating the stack.
   void Push(T val);
   T Pop();
-  T Top() const noexcept;
+  T Top() const;
   bool IsEmpty() const noexcept;
   bool IsFull() const noexcept;
   size_t Size() const noexcept;
@@ -84,7 +84,7 @@ class ArrayStack {
 /// ArrayStack constructor. Only initializes the topIndex to -1.
 /// </summary>
 template <typename T, size_t capacity>
-ArrayStack<T, capacity>::ArrayStack() : topIndex(-1) {}
+ArrayStack<T, capacity>::ArrayStack() : topIndex(-1), data() {}
 
 /// <summary>
 /// Pushes a value to the top of the stack.
@@ -117,7 +117,10 @@ T ArrayStack<T, capacity>::Pop() {
 /// </summary>
 /// <returns>vale that is on the top of the stack.</returns>
 template <typename T, size_t capacity>
-T ArrayStack<T, capacity>::Top() const noexcept {
+T ArrayStack<T, capacity>::Top() const {
+  if (IsEmpty()) {
+    throw std::runtime_error(errors::kPeekAtEmpty);
+  }
   return data.at(topIndex);
 }
 
@@ -134,9 +137,9 @@ bool ArrayStack<T, capacity>::IsEmpty() const noexcept {
 /// Method that checks if the stack is full.
 /// </summary>
 /// <returns>true if stack is full, false if not.</returns>
-template <typename T, size_t capacity>
-bool ArrayStack<T, capacity>::IsFull() const noexcept {
-  return topIndex >= capacity - 1;
+template <typename T, size_t capacity>  
+bool ArrayStack<T, capacity>::IsFull() const noexcept {  
+ return topIndex == capacity - 1;  
 }
 
 /// <summary>
