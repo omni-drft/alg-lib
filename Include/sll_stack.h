@@ -37,6 +37,8 @@
 
 #include <stdexcept>
 
+#include "constants.h"
+
 /// <summary>
 /// Default namespace for the AlgLib library.
 /// </summary>
@@ -57,7 +59,7 @@ class SLLStack {
   // Methods for manipulating the stack.
   void Push(T val) noexcept;
   T Pop();
-  T Top() const noexcept;
+  T Top() const;
   bool IsEmpty() const noexcept;
   size_t Size() const noexcept;
 
@@ -129,7 +131,10 @@ T SLLStack<T>::Pop() {
 /// </summary>
 /// <returns> value on top of the stack.</returns>
 template <typename T>
-T SLLStack<T>::Top() const noexcept {
+T SLLStack<T>::Top() const {
+  if (IsEmpty()) {
+    throw std::runtime_error(errors::kPeekAtEmpty);
+  }
   return top->data;
 }
 
