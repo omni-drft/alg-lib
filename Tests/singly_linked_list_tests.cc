@@ -126,7 +126,9 @@ TEST(SinglyLinkedListTest, Traverse) {
   list.InsertAtEnd(20);
   list.InsertAtEnd(30);
 
-  EXPECT_NO_THROW(list.Traverse());
+  EXPECT_NO_THROW(list.Traverse([](int value) {
+    // Empty callback (no return value)
+  }));
 }
 
 TEST(SinglyLinkedListTest, Destructor) {

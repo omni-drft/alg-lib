@@ -37,6 +37,7 @@
 #define ALGLIB_INCLUDE_SINGLYLINKEDLIST_H_
 
 #include <cstdlib>
+#include <functional>
 #include <vector>
 
 #include "constants.h"
@@ -57,7 +58,7 @@ class SinglyLinkedList {
   SinglyLinkedList();
 
   // Methods for exploring the singly linked list.
-  void Traverse() const noexcept;
+  void Traverse(const std::function<void(T)> &visit_callback) noexcept;
   size_t Size() const noexcept;
   size_t Find(T value) const;
 
@@ -127,11 +128,11 @@ SinglyLinkedList<T>::SinglyLinkedList() : head_(nullptr) {}
 /// the while loop.
 /// </summary>
 template <typename T>
-void SinglyLinkedList<T>::Traverse() const noexcept {
+void SinglyLinkedList<T>::Traverse(
+    const std::function<void(T)> &visit_callback) noexcept {
   Node *tmp{head_};
   while (tmp) {
-    // Do something with the tmp->data.
-    // std::cout << tmp->data << " ";
+    visit_callback(tmp->data);
     tmp = tmp->next;
   }
 }
@@ -249,8 +250,7 @@ void SinglyLinkedList<T>::InsertAtPosition(uint32_t pos, T value) {
       tmp = tmp->next;
       ++count;
     }
-    if (tmp == nullptr)
-      throw std::runtime_error(errors::kIndexOutOfRange);
+    if (tmp == nullptr) throw std::runtime_error(errors::kIndexOutOfRange);
     Node *newNode{new Node(value)};
     newNode->next = tmp->next;
     tmp->next = newNode;

@@ -39,5 +39,6 @@
 #include "circular_queue.h"
 #include "sll_queue.h"
 #include "adj_mat_graph.h"
+#include "vector.h"
 
 #endif // ALGLIB_INCLUDE_ALGLIB_H_
