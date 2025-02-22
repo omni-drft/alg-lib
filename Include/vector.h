@@ -11,11 +11,24 @@ class Vector {
   Vector() noexcept;
   Vector(size_t elements) noexcept;
   Vector(size_t elements, const T& value) noexcept;
+  
   void Push(const T& value) noexcept;
+  T& Pop();
+  const T& Pop() const;
+
   T& At(size_t index);
   const T& At(size_t index) const;
+  
   size_t Size() const noexcept;
   size_t Capacity() const noexcept;
+  void Resize(size_t size);
+  void ShrinkToFit();
+  
+  T& Front();
+  const T& Front() const;
+  T& Back();
+  const T& Back() const;
+
   ~Vector() noexcept;
 
  private:
@@ -56,6 +69,16 @@ void Vector<T>::Push(const T& value) noexcept {
 }
 
 template <typename T>
+T& Vector<T>::Pop() {
+  return data[size--];
+}
+
+template <typename T>
+const T& Vector<T>::Pop() const {
+  return data[size--];
+}
+
+template <typename T>
 T& Vector<T>::At(size_t index) {
   if (index >= size) {
     throw std::runtime_error(errors::kIndexOutOfRange);
@@ -79,6 +102,36 @@ size_t Vector<T>::Size() const noexcept {
 template <typename T>
 size_t Vector<T>::Capacity() const noexcept {
   return capacity;
+}
+
+template <typename T>
+void Vector<T>::Resize(size_t size) {
+  Reallocate(size);
+}
+
+template <typename T>
+void Vector<T>::ShrinkToFit() {
+  Reallocate(size);
+}
+
+template <typename T>
+T& Vector<T>::Front() {
+  return data[0];
+}
+
+template <typename T>
+const T& Vector<T>::Front() const {
+  return data[0];
+}
+
+template <typename T>
+T& Vector<T>::Back() {
+  return data[size - 1];
+}
+
+template <typename T>
+const T& Vector<T>::Back() const {
+  return data[size - 1];
 }
 
 template <typename T>

@@ -38,6 +38,7 @@
 #define ALGLIB_INCLUDE_DOUBLYLINKEDLIST_H_
 
 #include <cstdlib>
+#include <functional>
 
 #include "constants.h"
 
@@ -57,7 +58,7 @@ class DoublyLinkedList {
   DoublyLinkedList();
 
   // Methods for exploring the doubly linked list.
-  void Traverse() const noexcept;
+  void Traverse(const std::function<void(T)> &visit_callback) noexcept;
   size_t Size() const noexcept;
   size_t Find(const T value) const;
 
@@ -120,11 +121,11 @@ DoublyLinkedList<T>::DoublyLinkedList() : head_(nullptr), tail_(nullptr) {}
 /// list and moves to the next node until the end of the list is reached.
 /// </summary>
 template <typename T>
-void DoublyLinkedList<T>::Traverse() const noexcept {
+void DoublyLinkedList<T>::Traverse(
+    const std::function<void(T)> &visit_callback) noexcept {
   Node *tmp{head_};
   while (tmp) {
-    // Do something with tmp->data
-    // std::cout << tmp->data << " ";
+    visit_callback(tmp->data);
     tmp = tmp->next;
   }
 }
@@ -177,7 +178,7 @@ size_t DoublyLinkedList<T>::Find(const T value) const {
 /// </summary>
 /// <returns>Doubly linked list as vector.</returns>
 template <typename T>
-std::vector<T> DoublyLinkedList<T>::GetAsVector() const noexcept{
+std::vector<T> DoublyLinkedList<T>::GetAsVector() const noexcept {
   std::vector<T> vec{};
   vec.reserve(Size());
   Node *tmp{head_};

@@ -128,7 +128,7 @@ TEST(DoublyLinkedListTest, Traverse) {
   list.InsertAtEnd(20);
   list.InsertAtEnd(30);
 
-  EXPECT_NO_THROW(list.Traverse());
+  EXPECT_NO_THROW(list.Traverse([](int value){}));
 }
 
 TEST(DoublyLinkedListTest, Destructor) {
