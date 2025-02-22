@@ -14,7 +14,6 @@ class Vector {
   
   void Push(const T& value) noexcept;
   T& Pop();
-  const T& Pop() const;
 
   T& At(size_t index);
   const T& At(size_t index) const;
@@ -70,11 +69,6 @@ void Vector<T>::Push(const T& value) noexcept {
 
 template <typename T>
 T& Vector<T>::Pop() {
-  return data[size--];
-}
-
-template <typename T>
-const T& Vector<T>::Pop() const {
   return data[size--];
 }
 
