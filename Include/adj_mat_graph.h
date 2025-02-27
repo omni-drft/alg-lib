@@ -3,9 +3,9 @@
 
 #include <array>
 #include <functional>
-#include <vector>
 
 #include "sll_queue.h"
+#include "vector.h"
 
 namespace alglib {
 
@@ -14,13 +14,13 @@ class AdjMatGraph {
  public:
   AdjMatGraph(size_t vertices, bool is_directed);
   AdjMatGraph(size_t vertices, bool is_directed,
-              const std::vector<std::array<unsigned, 3>>& edges);
+              const Vector<int>& edges);
 
   void BFS(size_t start, const std::function<void(int)>& visit_callback);
   void DFS(size_t start, const std::function<void(int)>& visit_callback);
 
  private:
-  std::vector<std::vector<int>> adjacency_matrix;
+  Vector<Vector<T>> adjacency_matrix;
   bool directed;
 };
 
@@ -35,7 +35,7 @@ AdjMatGraph<T>::AdjMatGraph(size_t vertices, bool is_directed)
 
 template <typename T>
 AdjMatGraph<T>::AdjMatGraph(size_t vertices, bool is_directed,
-                            const std::vector<std::array<unsigned, 3>>& edges)
+                            const Vector<int>& edges)
     : directed(is_directed) {
   adjacency_matrix.resize(vertices);
   for (std::vector<int> in_vec : adjacency_matrix) {
@@ -73,9 +73,22 @@ void AdjMatGraph<T>::BFS(size_t start,
 template <typename T>
 void AdjMatGraph<T>::DFS(size_t start,
                          const std::function<void(int)>& visit_callback) {
-
+  Vector<int> visited;
+  SLLStack<int> stack;
+  stack.Push(start);
+  visited.At(i) = true;
+  while (!stack.IsEmpty()) {
+    int cur_node{stack.Pop()};
+    visit_callback(curr_node);
+    for (size_t i{adjacency_matrix.Size() - 1}; i >= 0; i--) {
+      if (adjacency_matrix.At(cur_node).At(i) == 1 && !visited.At(i)) {
+        stack.Push(i);
+        visited.At(i) = true;
+      }
+    }
+  }
 }
-
+    
 }  // namespace alglib
 
 #endif  // ALGLIB_INCLUDE_ADJMATGRAPH_H_
