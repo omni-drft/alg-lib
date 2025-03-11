@@ -7,7 +7,7 @@
 ## How to use?
 To use alglib you only need the header files (`.h`) from `Include/` directory. Use them just like normal header files. The compilation time of your project may increase. If you're worried about errors in version you're getting you can perform tests from [Tests](Tests/) directory. More about tests in [Tests](#tests) section.
 ## Manual
-Precise documentation can be found in [Docs](Docs/) folder in various formats. Easiest to use will probably be the [html](Docs/html) format. You can also head to [github pages](https://omni-drft.github.io/alg-lib/html/) to access copmlete documentation.
+Precise documentation can be found in [docs](docs/) folder in various formats. Easiest to use will probably be the [html](docs/html) format. You can also head to [github pages](https://omni-drft.github.io/alg-lib/html/) to access copmlete documentation.
 ## Tests
 All tests are written using [Google Test](https://github.com/google/googletest). The easiest way to build those tests is to use included [premake5 script](premake5.lua). It links [Google Test](https://github.com/google/googletest) with tests source code and library headers creating executable that performs all the tests. 
 ### How to run tests:
